@@ -1,11 +1,11 @@
 
 # README
 
-This is the README file for the `perl-Amazon-API` project...
+This is the README file for the `perl-Amazon-EC2` project...
 
 # Description
 
-Base class for Amazon APIs
+Perl interface to the EC2 API - _this is a work-in-progress_
 
 # Author
 
