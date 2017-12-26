@@ -6,13 +6,16 @@ use strict;
 use warnings;
 
 use Amazon::EC2;
+use Amazon::Credentials;
+
 use Data::Dumper;
+use JSON;
 use Scalar::Util qw/reftype/;
 use URI::Escape;
 
-my $ec2 = new Amazon::EC2({debug => 0});
+my $ec2 = new Amazon::EC2({credentials => new Amazon::Credentials({order => [qw/role file/]}), debug => 0});
 
-if (1) {
+if (0) {
   eval {
     my $result = $ec2->CreateSnapshot(
 				      VolumeId    => 'vol-04f5ef6e21b9bc954',
@@ -28,7 +31,7 @@ if (1) {
     my $err = $@;
     print STDERR sprintf("error in API [%s] invoking Action: [%s]:\n%s\n",
 			 $err->get_aws_api,
-			 $err->get_api->get_action,
+			 $err->get_api->get_last_action,
 			 Dumper [ $err->get_response() ]
 			);
   }
@@ -80,9 +83,7 @@ foreach my $info (@$item) {
   else {
     $instance_info{$Name} = $info;
   }
-  
-  printf("Name: [%s] Instance ID: [%s] Volume ID: [%s]\n", $Name, $instanceId, $volumeId);
 }
 
-print Dumper [keys %instance_info, \%instance_info];
+print to_json(\%instance_info, { pretty => 1});
 

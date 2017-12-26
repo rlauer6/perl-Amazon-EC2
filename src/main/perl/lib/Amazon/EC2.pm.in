@@ -43,6 +43,7 @@ arguments. L</http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html
 
 =cut
 
+
 =pod
 
 =head2 new
@@ -88,14 +89,32 @@ sub new {
   my $options = shift || {};
 
   $options->{region} = $options->{region} || 'us-east-1';
-  $options->{url} = $options->{url} || 'https://ec2.amazonaws.com';
+  $options->{url} = $options->{url} || sprintf("https://ec2.%s.amazonaws.com", $options->{region});
   
   unless ( $options->{credentials} ) {
     my $creds = new Amazon::Credentials($options);
     $options->{credentials} = $creds;
   }
   
-  $class->SUPER::new({%$options, version => '2016-11-15'});
+  $class->SUPER::new({%$options, version => '2016-11-15', api => 'EC2'});
+}
+
+sub invoke_api {
+  my $self = shift;
+  my $action = shift;
+  my $args = shift;
+  my $content_type = shift;
+
+  my $result = eval {
+    $self->SUPER::invoke_api(undef, ["Action=$action", 'Version=' . $self->get_version, $args ? @$args : ()], $content_type);
+  };
+  
+  # set the last_action, since parent will it to ''
+  $self->set_last_action($action);
+  
+  die $@ if $@;
+  
+  return $result;
 }
 
 sub _describe_instances {
@@ -104,6 +123,10 @@ sub _describe_instances {
 
 sub _create_snapshot {
   shift->invoke_api('CreateSnapshot', shift);
+}
+
+sub _create_tags {
+  shift->invoke_api('CreateTags', shift);
 }
 
 
@@ -139,10 +162,9 @@ sub DescribeInstances {
     }
   }
     
-  my $xml = $self->_describe_instances(@options ? \@options : ());
-  
-  my $result = XMLin($xml);
+  return XMLin($self->_describe_instances(@options ? \@options : ()));
 }
+
 
 sub CreateSnapshot {
   my $self = shift;
@@ -186,10 +208,6 @@ sub CreateTags {
   }
   
   return XMLin($self->_create_tags(\@params));
-}
-
-sub _create_tags {
-  shift->invoke_api('CreateTags', shift);
 }
 
 sub _format_parameters {
