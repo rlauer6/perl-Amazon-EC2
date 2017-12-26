@@ -9,6 +9,7 @@ use Amazon::Credentials;
 use JSON qw/from_json to_json/;
 use Scalar::Util qw/reftype/;
 use XML::Simple;
+use Data::Dumper;
 
 =pod
 
@@ -25,9 +26,7 @@ C<Amazon::EC2>
  use Amazon::Credentials;
  use Data::Dumper;
  
- use JSON;
- 
- my $ssm = new Amazon::EC2({credentials => new Amazon::Credentials});
+ my $ec2 = new Amazon::EC2({credentials => new Amazon::Credentials});
  
  my $result = $ec2->DescribeInstances();
  
@@ -76,6 +75,12 @@ Optional token if your credentials were temporary (from the role or assumed role
 
 =back
 
+I<Note that if no credentials are given, the constructor will behave as if you had done:>
+
+ new Amazon::EC2({credentials => new Amazon::Credentials});
+
+I<...which will use your default credentials. See C<Amazon::Credentials>.>
+
 =cut
 
 sub new {
@@ -95,6 +100,10 @@ sub new {
 
 sub _describe_instances {
   shift->invoke_api('DescribeInstances', shift);
+}
+
+sub _create_snapshot {
+  shift->invoke_api('CreateSnapshot', shift);
 }
 
 
@@ -133,6 +142,65 @@ sub DescribeInstances {
   my $xml = $self->_describe_instances(@options ? \@options : ());
   
   my $result = XMLin($xml);
+}
+
+sub CreateSnapshot {
+  my $self = shift;
+  my %args = @_;
+  my @parms = _format_parameters(%args);
+  
+  return XMLin($self->_create_snapshot(\@parms));
+}
+
+=pod
+
+=head2 CreateTags
+
+ CreateTags( resources ) 
+
+ CreateTags( $id => { Key => 'Name', Value => 'foo' } );
+ CreateTags( $id => [ { Key => 'Name', Value => 'foo' },
+                      { Key => 'Environment', Value => 'boo'}
+                    ]);
+
+=cut
+
+sub CreateTags {
+  my $self = shift;
+  my %resources = @_;
+
+  my @params;
+  my $idx=1;
+  
+  foreach my $r (keys %resources) {
+    if ( reftype($resources{$r}) ne 'ARRAY' ) {
+      $resources{$r} = [ $resources{$r} ];
+    }
+    
+    foreach (@{$resources{$r}}) {
+      push @params, sprintf("ResourceId.%d=%s", $idx, $r);
+      push @params, sprintf("Tag.%d.Key=%s", $idx, $_->{Key});
+      push @params, sprintf("Tag.%d.Value=%s", $idx, $_->{Value});
+      $idx++;
+    }
+  }
+  
+  return XMLin($self->_create_tags(\@params));
+}
+
+sub _create_tags {
+  shift->invoke_api('CreateTags', shift);
+}
+
+sub _format_parameters {
+  my %args = @_;
+  my @options;
+  
+  foreach (keys %args) {
+    push @options, sprintf("%s=%s", $_, $args{$_});
+  }
+  
+  return @options;
 }
 
 sub _format_filter {
