@@ -1,0 +1,88 @@
+#!/usr/bin/perl
+
+# Example using Amazon::EC2
+
+use strict;
+use warnings;
+
+use Amazon::EC2;
+use Data::Dumper;
+use Scalar::Util qw/reftype/;
+use URI::Escape;
+
+my $ec2 = new Amazon::EC2({debug => 0});
+
+if (1) {
+  eval {
+    my $result = $ec2->CreateSnapshot(
+				      VolumeId    => 'vol-04f5ef6e21b9bc954',
+				      Description => 'test+bedrock+build+snapshot'
+				     );
+    
+    my $resourceId = $result->{snapshotId};
+    
+    print Dumper [ $ec2->CreateTags( $resourceId => { Key => 'Name', Value => 'test-bedrock' })];
+  };
+
+  if ( $@ && ref($@) =~ /Amazon::API::Error/) {
+    my $err = $@;
+    print STDERR sprintf("error in API [%s] invoking Action: [%s]:\n%s\n",
+			 $err->get_aws_api,
+			 $err->get_api->get_action,
+			 Dumper [ $err->get_response() ]
+			);
+  }
+  
+  exit;
+}
+
+#my $filter = [ {Name => 'instance-id', Value => 'i-0b91d8e165cf2f41b'} ];
+#my $result = $ec2->DescribeInstances(Filter => $filter);
+
+my $result = $ec2->DescribeInstances();
+my $item = $result->{reservationSet}->{item};
+
+my %instance_info;
+
+foreach my $info (@$item) {
+  my $tagSet = $info->{instancesSet}->{item}->{tagSet}->{item};
+  $tagSet = reftype($tagSet) ne 'ARRAY' ? [ $tagSet ] : $tagSet;
+  my $Name;
+  
+  foreach my $tag ( @$tagSet ) {
+    if ( $tag->{key} && $tag->{key} eq 'Name' ) {
+      $Name = $tag->{value};
+      last;
+    }
+    elsif ( exists $tag->{Name} ) {
+      $Name = $tag->{Name}->{value};
+    }
+  }
+  
+  my $instanceId = $info->{instancesSet}->{item}->{instanceId};
+  my $volumeId;
+  
+  my $blockDeviceMapping = $info->{instancesSet}->{item}->{blockDeviceMapping}->{item};
+  
+  if (reftype($blockDeviceMapping) eq 'HASH' ) {
+    $volumeId = $blockDeviceMapping->{ebs}->{volumeId};
+  }
+  else {
+    $volumeId = join(',', map { $_->{ebs}->{volumeId} } @{$blockDeviceMapping});
+  }
+  
+  unless ( $Name ) {
+    print STDERR sprintf("instance: [%s] state: [%s] is not tagged\n",
+			 $instanceId,
+			 $info->{instancesSet}->{item}->{instanceState}->{name});
+    $instance_info{$instanceId} = $info;
+  }
+  else {
+    $instance_info{$Name} = $info;
+  }
+  
+  printf("Name: [%s] Instance ID: [%s] Volume ID: [%s]\n", $Name, $instanceId, $volumeId);
+}
+
+print Dumper [keys %instance_info, \%instance_info];
+

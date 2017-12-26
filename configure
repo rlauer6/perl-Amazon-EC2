@@ -3826,7 +3826,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile src/main/Makefile src/main/perl/Makefile src/main/perl/lib/Makefile ${PACKAGE_NAME}.spec"
+ac_config_files="$ac_config_files Makefile src/Makefile src/main/Makefile src/main/perl/Makefile src/main/perl/bin/Makefile src/main/perl/lib/Makefile ${PACKAGE_NAME}.spec"
 
 
 cat >confcache <<\_ACEOF
@@ -4501,6 +4501,7 @@ do
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "src/main/Makefile") CONFIG_FILES="$CONFIG_FILES src/main/Makefile" ;;
     "src/main/perl/Makefile") CONFIG_FILES="$CONFIG_FILES src/main/perl/Makefile" ;;
+    "src/main/perl/bin/Makefile") CONFIG_FILES="$CONFIG_FILES src/main/perl/bin/Makefile" ;;
     "src/main/perl/lib/Makefile") CONFIG_FILES="$CONFIG_FILES src/main/perl/lib/Makefile" ;;
     "${PACKAGE_NAME}.spec") CONFIG_FILES="$CONFIG_FILES ${PACKAGE_NAME}.spec" ;;
 

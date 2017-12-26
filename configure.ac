@@ -129,6 +129,7 @@ AC_CONFIG_FILES([
     src/Makefile
     src/main/Makefile
     src/main/perl/Makefile
+    src/main/perl/bin/Makefile
     src/main/perl/lib/Makefile
     ${PACKAGE_NAME}.spec
 ])

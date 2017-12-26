@@ -1,4 +1,4 @@
-SUBDIRS = . lib
+SUBDIRS = . lib bin
 
 check_SCRIPTS = prove.sh
 TESTS = $(check_SCRIPTS)
