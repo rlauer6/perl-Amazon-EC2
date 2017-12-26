@@ -16,7 +16,7 @@ PERLSCRIPTS = \
 
 GPERLSCRIPTS = $(PERLSCRIPTS:.pl.in=.pl)
 
-libexec_SCRIPTS = $(GPERLSCRIPTS)
+# libexec_SCRIPTS = $(GPERLSCRIPTS)
 dist_noinst_DATA = $(PERLSCRIPTS)
 
 @do_subst_command@
