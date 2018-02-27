@@ -602,18 +602,18 @@ PACKAGE_BUGREPORT='rlauer6@comcast.net'
 
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
-RPMBUILD_ENABLED_FALSE
-RPMBUILD_ENABLED_TRUE
-DISTCHECK_HACK_ENABLED_FALSE
-DISTCHECK_HACK_ENABLED_TRUE
-DEPS_DISABLED_FALSE
-DEPS_DISABLED_TRUE
-PERLDEPS_DISABLED_FALSE
-PERLDEPS_DISABLED_TRUE
 USING_PERL5_EXTRA_INCLUDES_FALSE
 USING_PERL5_EXTRA_INCLUDES_TRUE
 ax_perl5_extra_includes_opt
 ax_perl5_extra_includes
+RPMBUILD_ENABLED_FALSE
+RPMBUILD_ENABLED_TRUE
+PERLDEPS_DISABLED_FALSE
+PERLDEPS_DISABLED_TRUE
+DEPS_DISABLED_FALSE
+DEPS_DISABLED_TRUE
+DISTCHECK_HACK_ENABLED_FALSE
+DISTCHECK_HACK_ENABLED_TRUE
 perl5libdir
 PERL
 POD2MAN
@@ -686,11 +686,11 @@ ac_user_opts='
 enable_option_checking
 enable_rpm_build_mode
 with_perl5libdir
-with_perl_includes
-enable_perldeps
-enable_deps
 enable_distcheck_hack
+enable_deps
+enable_perldeps
 enable_rpmbuild
+with_perl_includes
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1322,9 +1322,9 @@ Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
   --enable-rpm-build-mode       configure RPM build mode (disables certain checks), default: disabled
-  --disable-perldeps don't abort if dependencies missing
-  --disable-deps don't abort if dependencies missing
   --enable-distcheck-hack enable distcheck hack
+  --disable-deps don't abort if dependencies missing
+  --disable-perldeps don't abort if dependencies missing
   --enable-rpmbuild configure for an RPM build
 
 Optional Packages:
@@ -2658,6 +2658,176 @@ fi
 
 
 
+
+    { $as_echo "$as_me:$LINENO: checking whether to enable distcheck hack" >&5
+$as_echo_n "checking whether to enable distcheck hack... " >&6; }
+
+    # Check whether --enable-distcheck-hack was given.
+if test "${enable_distcheck_hack+set}" = set; then
+  enableval=$enable_distcheck_hack;
+            case "${enableval}" in
+                yes)  ax_distcheck_hack_enabled=true  ;;
+                no)   ax_distcheck_hack_enabled=false ;;
+                *)
+                    { { $as_echo "$as_me:$LINENO: error: bad value (\"$enableval\") for '--enable-distcheck-hack' option" >&5
+$as_echo "$as_me: error: bad value (\"$enableval\") for '--enable-distcheck-hack' option" >&2;}
+   { (exit 1); exit 1; }; }
+                    ;;
+            esac
+
+else
+
+            ax_distcheck_hack_enabled=false
+
+
+fi
+
+
+    if ${ax_distcheck_hack_enabled}; then
+        { $as_echo "$as_me:$LINENO: result: yes" >&5
+$as_echo "yes" >&6; }
+    else
+        { $as_echo "$as_me:$LINENO: result: no" >&5
+$as_echo "no" >&6; }
+    fi
+
+         if ${ax_distcheck_hack_enabled}; then
+  DISTCHECK_HACK_ENABLED_TRUE=
+  DISTCHECK_HACK_ENABLED_FALSE='#'
+else
+  DISTCHECK_HACK_ENABLED_TRUE='#'
+  DISTCHECK_HACK_ENABLED_FALSE=
+fi
+
+
+
+    { $as_echo "$as_me:$LINENO: checking whether to disable  dependency requirement" >&5
+$as_echo_n "checking whether to disable  dependency requirement... " >&6; }
+
+    # Check whether --enable-deps was given.
+if test "${enable_deps+set}" = set; then
+  enableval=$enable_deps;
+            case "${enableval}" in
+                yes)  ax_deps_disabled=false  ;;
+                no)   ax_deps_disabled=true ;;
+                *)
+                    { { $as_echo "$as_me:$LINENO: error: bad value (\"$enableval\") for '--disable-deps' option" >&5
+$as_echo "$as_me: error: bad value (\"$enableval\") for '--disable-deps' option" >&2;}
+   { (exit 1); exit 1; }; }
+                    ;;
+            esac
+
+else
+
+            ax_deps_disabled=false
+
+
+fi
+
+
+    if ${ax_deps_disabled}; then
+        { $as_echo "$as_me:$LINENO: result: yes" >&5
+$as_echo "yes" >&6; }
+    else
+        { $as_echo "$as_me:$LINENO: result: no" >&5
+$as_echo "no" >&6; }
+    fi
+
+         if test "${ax_deps_disabled}" = "true"; then
+  DEPS_DISABLED_TRUE=
+  DEPS_DISABLED_FALSE='#'
+else
+  DEPS_DISABLED_TRUE='#'
+  DEPS_DISABLED_FALSE=
+fi
+
+
+
+    { $as_echo "$as_me:$LINENO: checking whether to disable perl dependency requirement" >&5
+$as_echo_n "checking whether to disable perl dependency requirement... " >&6; }
+
+    # Check whether --enable-perldeps was given.
+if test "${enable_perldeps+set}" = set; then
+  enableval=$enable_perldeps;
+            case "${enableval}" in
+                yes)  ax_perldeps_disabled=false  ;;
+                no)   ax_perldeps_disabled=true ;;
+                *)
+                    { { $as_echo "$as_me:$LINENO: error: bad value (\"$enableval\") for '--disable-perldeps' option" >&5
+$as_echo "$as_me: error: bad value (\"$enableval\") for '--disable-perldeps' option" >&2;}
+   { (exit 1); exit 1; }; }
+                    ;;
+            esac
+
+else
+
+            ax_perldeps_disabled=false
+
+
+fi
+
+
+    if ${ax_perldeps_disabled}; then
+        { $as_echo "$as_me:$LINENO: result: yes" >&5
+$as_echo "yes" >&6; }
+    else
+        { $as_echo "$as_me:$LINENO: result: no" >&5
+$as_echo "no" >&6; }
+    fi
+
+         if test "${ax_perldeps_disabled}" = "true"; then
+  PERLDEPS_DISABLED_TRUE=
+  PERLDEPS_DISABLED_FALSE='#'
+else
+  PERLDEPS_DISABLED_TRUE='#'
+  PERLDEPS_DISABLED_FALSE=
+fi
+
+
+
+    { $as_echo "$as_me:$LINENO: checking whether to enable an RPM build environment" >&5
+$as_echo_n "checking whether to enable an RPM build environment... " >&6; }
+
+    # Check whether --enable-rpmbuild was given.
+if test "${enable_rpmbuild+set}" = set; then
+  enableval=$enable_rpmbuild;
+            case "${enableval}" in
+                yes)  ax_rpmbuild_enabled=true  ;;
+                no)   ax_rpmbuild_enabled=false ;;
+                *)
+                    { { $as_echo "$as_me:$LINENO: error: bad value (\"$enableval\") for '--enable-rpmbuild' option" >&5
+$as_echo "$as_me: error: bad value (\"$enableval\") for '--enable-rpmbuild' option" >&2;}
+   { (exit 1); exit 1; }; }
+                    ;;
+            esac
+
+else
+
+            ax_rpmbuild_enabled=false
+
+
+fi
+
+
+    if ${ax_rpmbuild_enabled}; then
+        { $as_echo "$as_me:$LINENO: result: yes" >&5
+$as_echo "yes" >&6; }
+    else
+        { $as_echo "$as_me:$LINENO: result: no" >&5
+$as_echo "no" >&6; }
+    fi
+
+         if test "${ax_rpmbuild_enabled}" = "true"; then
+  RPMBUILD_ENABLED_TRUE=
+  RPMBUILD_ENABLED_FALSE='#'
+else
+  RPMBUILD_ENABLED_TRUE='#'
+  RPMBUILD_ENABLED_FALSE=
+fi
+
+
+
+
     req_perl_version=""
     if test -z "$req_perl_version"; then
         req_perl_version="5.005"
@@ -2796,90 +2966,6 @@ fi
 else
   USING_PERL5_EXTRA_INCLUDES_TRUE='#'
   USING_PERL5_EXTRA_INCLUDES_FALSE=
-fi
-
-
-
-    { $as_echo "$as_me:$LINENO: checking whether to disable perl dependency requirement" >&5
-$as_echo_n "checking whether to disable perl dependency requirement... " >&6; }
-
-    # Check whether --enable-perldeps was given.
-if test "${enable_perldeps+set}" = set; then
-  enableval=$enable_perldeps;
-            case "${enableval}" in
-                yes)  ax_perldeps_disabled=false  ;;
-                no)   ax_perldeps_disabled=true ;;
-                *)
-                    { { $as_echo "$as_me:$LINENO: error: bad value (\"$enableval\") for '--disable-perldeps' option" >&5
-$as_echo "$as_me: error: bad value (\"$enableval\") for '--disable-perldeps' option" >&2;}
-   { (exit 1); exit 1; }; }
-                    ;;
-            esac
-
-else
-
-            ax_perldeps_disabled=false
-
-
-fi
-
-
-    if ${ax_perldeps_disabled}; then
-        { $as_echo "$as_me:$LINENO: result: yes" >&5
-$as_echo "yes" >&6; }
-    else
-        { $as_echo "$as_me:$LINENO: result: no" >&5
-$as_echo "no" >&6; }
-    fi
-
-         if test "${ax_perldeps_disabled}" = "true"; then
-  PERLDEPS_DISABLED_TRUE=
-  PERLDEPS_DISABLED_FALSE='#'
-else
-  PERLDEPS_DISABLED_TRUE='#'
-  PERLDEPS_DISABLED_FALSE=
-fi
-
-
-
-    { $as_echo "$as_me:$LINENO: checking whether to disable  dependency requirement" >&5
-$as_echo_n "checking whether to disable  dependency requirement... " >&6; }
-
-    # Check whether --enable-deps was given.
-if test "${enable_deps+set}" = set; then
-  enableval=$enable_deps;
-            case "${enableval}" in
-                yes)  ax_deps_disabled=false  ;;
-                no)   ax_deps_disabled=true ;;
-                *)
-                    { { $as_echo "$as_me:$LINENO: error: bad value (\"$enableval\") for '--disable-deps' option" >&5
-$as_echo "$as_me: error: bad value (\"$enableval\") for '--disable-deps' option" >&2;}
-   { (exit 1); exit 1; }; }
-                    ;;
-            esac
-
-else
-
-            ax_deps_disabled=false
-
-
-fi
-
-
-    if ${ax_deps_disabled}; then
-        { $as_echo "$as_me:$LINENO: result: yes" >&5
-$as_echo "yes" >&6; }
-    else
-        { $as_echo "$as_me:$LINENO: result: no" >&5
-$as_echo "no" >&6; }
-    fi
-
-         if test "${ax_deps_disabled}" = "true"; then
-  DEPS_DISABLED_TRUE=
-  DEPS_DISABLED_FALSE='#'
-else
-  DEPS_DISABLED_TRUE='#'
-  DEPS_DISABLED_FALSE=
 fi
 
 
@@ -3656,176 +3742,6 @@ $as_echo "no (ok)" >&6; }
 
 
 
-
-
-    { $as_echo "$as_me:$LINENO: checking whether to enable distcheck hack" >&5
-$as_echo_n "checking whether to enable distcheck hack... " >&6; }
-
-    # Check whether --enable-distcheck-hack was given.
-if test "${enable_distcheck_hack+set}" = set; then
-  enableval=$enable_distcheck_hack;
-            case "${enableval}" in
-                yes)  ax_distcheck_hack_enabled=true  ;;
-                no)   ax_distcheck_hack_enabled=false ;;
-                *)
-                    { { $as_echo "$as_me:$LINENO: error: bad value (\"$enableval\") for '--enable-distcheck-hack' option" >&5
-$as_echo "$as_me: error: bad value (\"$enableval\") for '--enable-distcheck-hack' option" >&2;}
-   { (exit 1); exit 1; }; }
-                    ;;
-            esac
-
-else
-
-            ax_distcheck_hack_enabled=false
-
-
-fi
-
-
-    if ${ax_distcheck_hack_enabled}; then
-        { $as_echo "$as_me:$LINENO: result: yes" >&5
-$as_echo "yes" >&6; }
-    else
-        { $as_echo "$as_me:$LINENO: result: no" >&5
-$as_echo "no" >&6; }
-    fi
-
-         if ${ax_distcheck_hack_enabled}; then
-  DISTCHECK_HACK_ENABLED_TRUE=
-  DISTCHECK_HACK_ENABLED_FALSE='#'
-else
-  DISTCHECK_HACK_ENABLED_TRUE='#'
-  DISTCHECK_HACK_ENABLED_FALSE=
-fi
-
-
-
-    { $as_echo "$as_me:$LINENO: checking whether to disable  dependency requirement" >&5
-$as_echo_n "checking whether to disable  dependency requirement... " >&6; }
-
-    # Check whether --enable-deps was given.
-if test "${enable_deps+set}" = set; then
-  enableval=$enable_deps;
-            case "${enableval}" in
-                yes)  ax_deps_disabled=false  ;;
-                no)   ax_deps_disabled=true ;;
-                *)
-                    { { $as_echo "$as_me:$LINENO: error: bad value (\"$enableval\") for '--disable-deps' option" >&5
-$as_echo "$as_me: error: bad value (\"$enableval\") for '--disable-deps' option" >&2;}
-   { (exit 1); exit 1; }; }
-                    ;;
-            esac
-
-else
-
-            ax_deps_disabled=false
-
-
-fi
-
-
-    if ${ax_deps_disabled}; then
-        { $as_echo "$as_me:$LINENO: result: yes" >&5
-$as_echo "yes" >&6; }
-    else
-        { $as_echo "$as_me:$LINENO: result: no" >&5
-$as_echo "no" >&6; }
-    fi
-
-         if test "${ax_deps_disabled}" = "true"; then
-  DEPS_DISABLED_TRUE=
-  DEPS_DISABLED_FALSE='#'
-else
-  DEPS_DISABLED_TRUE='#'
-  DEPS_DISABLED_FALSE=
-fi
-
-
-
-    { $as_echo "$as_me:$LINENO: checking whether to disable perl dependency requirement" >&5
-$as_echo_n "checking whether to disable perl dependency requirement... " >&6; }
-
-    # Check whether --enable-perldeps was given.
-if test "${enable_perldeps+set}" = set; then
-  enableval=$enable_perldeps;
-            case "${enableval}" in
-                yes)  ax_perldeps_disabled=false  ;;
-                no)   ax_perldeps_disabled=true ;;
-                *)
-                    { { $as_echo "$as_me:$LINENO: error: bad value (\"$enableval\") for '--disable-perldeps' option" >&5
-$as_echo "$as_me: error: bad value (\"$enableval\") for '--disable-perldeps' option" >&2;}
-   { (exit 1); exit 1; }; }
-                    ;;
-            esac
-
-else
-
-            ax_perldeps_disabled=false
-
-
-fi
-
-
-    if ${ax_perldeps_disabled}; then
-        { $as_echo "$as_me:$LINENO: result: yes" >&5
-$as_echo "yes" >&6; }
-    else
-        { $as_echo "$as_me:$LINENO: result: no" >&5
-$as_echo "no" >&6; }
-    fi
-
-         if test "${ax_perldeps_disabled}" = "true"; then
-  PERLDEPS_DISABLED_TRUE=
-  PERLDEPS_DISABLED_FALSE='#'
-else
-  PERLDEPS_DISABLED_TRUE='#'
-  PERLDEPS_DISABLED_FALSE=
-fi
-
-
-
-    { $as_echo "$as_me:$LINENO: checking whether to enable an RPM build environment" >&5
-$as_echo_n "checking whether to enable an RPM build environment... " >&6; }
-
-    # Check whether --enable-rpmbuild was given.
-if test "${enable_rpmbuild+set}" = set; then
-  enableval=$enable_rpmbuild;
-            case "${enableval}" in
-                yes)  ax_rpmbuild_enabled=true  ;;
-                no)   ax_rpmbuild_enabled=false ;;
-                *)
-                    { { $as_echo "$as_me:$LINENO: error: bad value (\"$enableval\") for '--enable-rpmbuild' option" >&5
-$as_echo "$as_me: error: bad value (\"$enableval\") for '--enable-rpmbuild' option" >&2;}
-   { (exit 1); exit 1; }; }
-                    ;;
-            esac
-
-else
-
-            ax_rpmbuild_enabled=false
-
-
-fi
-
-
-    if ${ax_rpmbuild_enabled}; then
-        { $as_echo "$as_me:$LINENO: result: yes" >&5
-$as_echo "yes" >&6; }
-    else
-        { $as_echo "$as_me:$LINENO: result: no" >&5
-$as_echo "no" >&6; }
-    fi
-
-         if test "${ax_rpmbuild_enabled}" = "true"; then
-  RPMBUILD_ENABLED_TRUE=
-  RPMBUILD_ENABLED_FALSE='#'
-else
-  RPMBUILD_ENABLED_TRUE='#'
-  RPMBUILD_ENABLED_FALSE=
-fi
-
-
-
 ac_config_files="$ac_config_files Makefile src/Makefile src/main/Makefile src/main/perl/Makefile src/main/perl/bin/Makefile src/main/perl/lib/Makefile ${PACKAGE_NAME}.spec"
 
 
@@ -3970,27 +3886,6 @@ $as_echo "$as_me: error: conditional \"RPM_BUILD_MODE\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
-if test -z "${USING_PERL5_EXTRA_INCLUDES_TRUE}" && test -z "${USING_PERL5_EXTRA_INCLUDES_FALSE}"; then
-  { { $as_echo "$as_me:$LINENO: error: conditional \"USING_PERL5_EXTRA_INCLUDES\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-$as_echo "$as_me: error: conditional \"USING_PERL5_EXTRA_INCLUDES\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${PERLDEPS_DISABLED_TRUE}" && test -z "${PERLDEPS_DISABLED_FALSE}"; then
-  { { $as_echo "$as_me:$LINENO: error: conditional \"PERLDEPS_DISABLED\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-$as_echo "$as_me: error: conditional \"PERLDEPS_DISABLED\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
-if test -z "${DEPS_DISABLED_TRUE}" && test -z "${DEPS_DISABLED_FALSE}"; then
-  { { $as_echo "$as_me:$LINENO: error: conditional \"DEPS_DISABLED\" was never defined.
-Usually this means the macro was only invoked conditionally." >&5
-$as_echo "$as_me: error: conditional \"DEPS_DISABLED\" was never defined.
-Usually this means the macro was only invoked conditionally." >&2;}
-   { (exit 1); exit 1; }; }
-fi
 if test -z "${DISTCHECK_HACK_ENABLED_TRUE}" && test -z "${DISTCHECK_HACK_ENABLED_FALSE}"; then
   { { $as_echo "$as_me:$LINENO: error: conditional \"DISTCHECK_HACK_ENABLED\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
@@ -4016,6 +3911,13 @@ if test -z "${RPMBUILD_ENABLED_TRUE}" && test -z "${RPMBUILD_ENABLED_FALSE}"; th
   { { $as_echo "$as_me:$LINENO: error: conditional \"RPMBUILD_ENABLED\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 $as_echo "$as_me: error: conditional \"RPMBUILD_ENABLED\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${USING_PERL5_EXTRA_INCLUDES_TRUE}" && test -z "${USING_PERL5_EXTRA_INCLUDES_FALSE}"; then
+  { { $as_echo "$as_me:$LINENO: error: conditional \"USING_PERL5_EXTRA_INCLUDES\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+$as_echo "$as_me: error: conditional \"USING_PERL5_EXTRA_INCLUDES\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi

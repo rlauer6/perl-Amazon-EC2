@@ -113,16 +113,16 @@ AC_ARG_WITH(
 
 AC_SUBST([perl5libdir])
 
+AX_DISTCHECK_HACK
+AX_DEPS_CHECK
+AX_PERLDEPS_CHECK
+AX_RPMBUILD_CHECK
+
 dnl something just to make autoconf include the autotools/ads_ stuff in the distribution
 ads_PERL_MODULE([Getopt::Long])
 ads_PERL_MODULE([Amazon::API])
 ads_PERL_MODULE([Amazon::Credentials])
 ads_PERL_MODULE([XML::Simple])
-
-AX_DISTCHECK_HACK
-AX_DEPS_CHECK
-AX_PERLDEPS_CHECK
-AX_RPMBUILD_CHECK
 
 AC_CONFIG_FILES([
     Makefile

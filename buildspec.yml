@@ -16,7 +16,7 @@ phases:
   build:
     commands:
       - autoreconf -i --force
-      - ./configure --prefix=/usr --with-perl5libdir --enable-rpm-build-mode
+      - ./configure --prefix=/usr --with-perl5libdir --enable-rpmbuild --disable-perldeps
       - make dist
       - rpmbuild -tb $(ls -1 *.tar.gz | head -1)
 artifacts:

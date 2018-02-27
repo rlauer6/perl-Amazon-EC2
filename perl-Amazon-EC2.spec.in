@@ -47,7 +47,8 @@ Group:    Development/Libraries
 %build
 ./configure --prefix=/usr \
 	    --with-perl5libdir \
-            --enable-rpmbuild-mode
+            --enable-rpmbuild \
+	    --disable-perldeps
 make
 
 # Pre-installation steps go here
