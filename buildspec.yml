@@ -1,0 +1,25 @@
+version: 0.1
+
+environment_variables:
+  plaintext:
+    PATH: "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+phases:
+  install:
+    commands:
+      - yum update -y
+      - yum install autotools automake install -y util-linux rpm-build
+  pre_build:
+    commands:
+      - cd /root
+      - mkdir rpmbuild
+      - echo -e "%_topdir /root/rpmbuild" > /root/.rpmmacros
+  build:
+    commands:
+      - autoreconf -i --force
+      - ./configure --prefix=/usr --with-perl5libdir --enable-rpm-build-mode
+      - make dist
+      - rpmbuild -tb $(ls -1 *.tar.gz | head -1)
+artifacts:
+  discard-paths: yes
+  files:
+    - /root/rpmbuild/RPMS/noarch/*
