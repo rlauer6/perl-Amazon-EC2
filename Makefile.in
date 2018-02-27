@@ -35,8 +35,8 @@ POST_UNINSTALL = :
 subdir = .
 DIST_COMMON = $(am__configure_deps) $(dist_noinst_DATA) \
 	$(srcdir)/${PACKAGE_NAME}.spec.in $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in $(top_srcdir)/configure AUTHORS INSTALL \
-	NEWS autotools/install-sh autotools/missing
+	$(srcdir)/Makefile.in $(top_srcdir)/configure AUTHORS \
+	autotools/install-sh autotools/missing
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/autotools/ads_PERL_INCLUDES.m4 \
 	$(top_srcdir)/autotools/ads_PERL_MODULE.m4 \

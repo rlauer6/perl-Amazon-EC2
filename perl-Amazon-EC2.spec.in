@@ -12,7 +12,7 @@ Source:     %{project_base}-%{project_version}.tar.gz
 
 BuildArch:  noarch
 
-%define _prefix         /usr/local
+%define _prefix         /usr
 %define _sysconfdir     %{_prefix}/etc
 %define _datadir        %{_prefix}/share
 %define _localstatedir  %{_prefix}/var
@@ -23,7 +23,7 @@ BuildArch:  noarch
 %define _libexecdir     %{_prefix}/libexec
 %define _sbindir        %{_prefix}/sbin
 %define _includedir     %{_prefix}/include
-%define _perl5libdir    %{_prefix}/share/perl5
+%define _perl5libdir    %(perl -MConfig -wle 'print $Config{sitelib};')
 
 BuildRoot:  %{buildroot}
 Prefix:     %{_prefix}
@@ -35,7 +35,7 @@ BuildRequires: automake autoconf
 #--------------------------------------------------------------------#
 
 Summary:  @PACKAGE@
-Group:    Utilities
+Group:    Development/Libraries
 
 %description
 
@@ -45,7 +45,8 @@ Group:    Utilities
 %setup -q -n %{pkgname}
 
 %build
-./configure --prefix=/usr/local \
+./configure --prefix=/usr \
+	    --with-perl5libdir \
             --enable-rpmbuild
 make
 
