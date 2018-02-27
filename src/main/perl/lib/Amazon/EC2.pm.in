@@ -43,6 +43,7 @@ arguments. L</http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Welcome.html
 
 =cut
 
+
 =pod
 
 =head2 new
@@ -366,7 +367,6 @@ sub new {
 		     });
 }
 
-
 =pod
 
 =head2 DescribeInstances
@@ -399,10 +399,9 @@ sub DescribeInstances {
     }
   }
     
-  my $xml = $self->_describe_instances(@options ? \@options : ());
-  
-  my $result = XMLin($xml);
+  return XMLin($self->_describe_instances(@options ? \@options : ()));
 }
+
 
 sub CreateSnapshot {
   my $self = shift;
@@ -446,10 +445,6 @@ sub CreateTags {
   }
   
   return XMLin($self->_create_tags(\@params));
-}
-
-sub _create_tags {
-  shift->invoke_api('CreateTags', shift);
 }
 
 sub _format_parameters {
