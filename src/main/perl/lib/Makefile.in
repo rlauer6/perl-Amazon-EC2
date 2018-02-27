@@ -195,8 +195,8 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 SUBDIRS = .
 perlrun = @PERL@
-@RPM_BUILD_MODE_FALSE@perlwc = @PERL@ -wc
-@RPM_BUILD_MODE_TRUE@perlwc = \#
+@RPMBUILD_ENABLED_FALSE@perlwc = @PERL@ -wc
+@RPMBUILD_ENABLED_TRUE@perlwc = \#
 
 # this is where we will install these perl modules
 amazondir = @datadir@/perl5/Amazon
