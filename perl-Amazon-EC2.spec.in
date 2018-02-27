@@ -47,7 +47,7 @@ Group:    Development/Libraries
 %build
 ./configure --prefix=/usr \
 	    --with-perl5libdir \
-            --enable-rpmbuild
+            --enable-rpmbuild-mode
 make
 
 # Pre-installation steps go here
