@@ -19,7 +19,7 @@ phases:
       - ./configure --prefix=/usr --with-perl5libdir --enable-rpmbuild --disable-perldeps
       - make dist
       - rpmbuild -tb $(ls -1 *.tar.gz | head -1)
-      - target_repo="$(basename $(ls -1 *.tar.gz | head -1) .tar.gz).repo"
+      - export target_repo="$(basename $(ls -1 *.tar.gz | head -1) .tar.gz).repo"
       - echo "target_repo=$target_repo"
       - echo "tbc-amzn-ami" > $target_repo
 artifacts:
