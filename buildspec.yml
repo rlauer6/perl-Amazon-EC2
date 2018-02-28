@@ -7,7 +7,7 @@ phases:
   install:
     commands:
       - yum update -y
-      - yum install autotools automake install -y util-linux rpm-build
+      - yum install autotools automake install -y util-linux rpm-build tree
   pre_build:
     commands:
       - mkdir /root/rpmbuild
@@ -20,9 +20,10 @@ phases:
       - make dist
       - rpmbuild -tb $(ls -1 *.tar.gz | head -1)
       - test -e target-repo || echo "tbc-amzn-ami" > target-repo
-      - cp target-repo "/root/$(basename $(ls -1 *.tar.gz | head -1) .tar.gz).repo"
+      - cp target-repo "/root/repo/$(basename $(ls -1 *.tar.gz | head -1) .tar.gz).repo"
+      - tree /root
 artifacts:
   discard-paths: yes
   files:
     - /root/rpmbuild/RPMS/noarch/*
-    - /root/target-repo
+    - /root/repo/*
