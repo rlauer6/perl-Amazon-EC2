@@ -199,8 +199,7 @@ perlrun = @PERL@
 @RPMBUILD_ENABLED_TRUE@perlwc = \#
 
 # this is where we will install these perl modules
-amazondir = @datadir@/perl5/Amazon
-logdir = @localstatedir@/log
+amazondir = @perl5libdir@/perl5/Amazon
 PERLMODULES = \
     Amazon/EC2.pm.in
 
