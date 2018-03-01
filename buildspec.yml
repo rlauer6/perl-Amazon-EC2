@@ -18,13 +18,15 @@ phases:
       - autoreconf -i --force
       - ./configure --prefix=/usr --with-perl5libdir --enable-rpmbuild --disable-perldeps
       - make dist
+      - echo $(basename $(ls -1 *.tar.gz | head -1) .tar.gz) > package-name
       - rpmbuild -tb $(ls -1 *.tar.gz | head -1)
-      - test -e target-repo || echo "tbc-amzn-ami" > target-repo
-      - mkdir /root/repo
-      - cp target-repo "/root/repo/$(basename $(ls -1 *.tar.gz | head -1) .tar.gz).repo"
+      - test -e target-repo && mkdir /root/repo
+      - find ~/rpmbuild/RPMS/ -name '*.rpm' | sed 's|/root/rpmbuild/RPMS/||' > "/root/repo/$(cat package-name).lst"
+      - test -e target-repo && cp target-repo "/root/repo/$(cat package-name).repo"
       - tree /root
+      - cat /root/repo/$(cat package-name).lst
 artifacts:
   discard-paths: yes
   files:
-    - /root/rpmbuild/RPMS/noarch/*
+    - /root/rpmbuild/RPMS/**/*
     - /root/repo/*
