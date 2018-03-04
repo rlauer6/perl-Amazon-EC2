@@ -21,8 +21,10 @@ elsif ($@) {
   die $@;
 }
 
+# print STDERR Dumper [ $result ];
+
 my $t = new Text::ASCIITable({headingText => 'EC2 Instances', allowANSI => 1});
-$t->setCols('#', 'instanceId', 'imageId', 'instanceType', 'privateIpAddress', 'launchTime', 'instanceState');
+$t->setCols('#', 'instanceId', 'name', 'imageId', 'instanceType', 'privateIpAddress', 'launchTime', 'instanceState');
 
 my @data;
 
@@ -37,7 +39,9 @@ my $row = 0;
 
 foreach my $item (@data) {
   my $state = $item->{instanceState}->{name};
-  $t->addRow(++$row, @{$item}{qw/instanceId imageId instanceType privateIpAddress launchTime/}, $state eq 'running' ? colored($state, 'green') : colored($state, 'red'));
+  my $name = $item->{tagSet}->{item}->{Name};
+  $item->{name} = $name->{value};
+  $t->addRow(++$row, @{$item}{qw/instanceId name imageId instanceType privateIpAddress launchTime/}, $state eq 'running' ? colored($state, 'green') : colored($state, 'red'));
 }
 
 print $t;
