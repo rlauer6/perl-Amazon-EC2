@@ -40,4 +40,7 @@ $(GPERLSCRIPTS): % : %.in
 
 all:
 
+example: $(GPERLSCRIPTS)
+
+
 CLEANFILES = $(GPERLSCRIPTS)

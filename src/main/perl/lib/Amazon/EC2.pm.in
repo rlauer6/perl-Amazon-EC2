@@ -399,7 +399,7 @@ sub DescribeInstances {
     }
   }
     
-  return XMLin($self->_describe_instances(@options ? \@options : ()));
+  return XMLin($self->describe_instances(@options ? \@options : ()));
 }
 
 
@@ -408,7 +408,7 @@ sub CreateSnapshot {
   my %args = @_;
   my @parms = _format_parameters(%args);
   
-  return XMLin($self->_create_snapshot(\@parms));
+  return XMLin($self->create_snapshot(\@parms));
 }
 
 =pod
@@ -444,7 +444,7 @@ sub CreateTags {
     }
   }
   
-  return XMLin($self->_create_tags(\@params));
+  return XMLin($self->create_tags(\@params));
 }
 
 sub _format_parameters {
