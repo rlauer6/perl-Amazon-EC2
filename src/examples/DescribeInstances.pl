@@ -7,8 +7,9 @@ use Amazon::EC2;
 use Data::Dumper;
 use Term::ANSIColor;
 use Text::ASCIITable;
+use Furl;
  
-my $ec2 = new Amazon::EC2({debug => 0});
+my $ec2 = new Amazon::EC2({debug => 0, user_agent => new Furl});
 
 my $result = eval {
   $ec2->DescribeInstances;
@@ -39,9 +40,43 @@ my $row = 0;
 
 foreach my $item (@data) {
   my $state = $item->{instanceState}->{name};
+
   my $name = $item->{tagSet}->{item}->{Name};
-  $item->{name} = $name->{value};
-  $t->addRow(++$row, @{$item}{qw/instanceId name imageId instanceType privateIpAddress launchTime/}, $state eq 'running' ? colored($state, 'green') : colored($state, 'red'));
+  if ( $name ) {
+    $item->{name} = $name->{value};
+  }
+  else {
+    if ( exists $item->{tagSet}->{tagSet}->{item}->{key} && $item->{tagSet}->{item}->{key} eq 'Name' ) {
+      $item->{name} = $item->{tagSet}->{item}->{value};
+    }
+  }
+  
+  my $color;
+  
+  for ("$state") {
+    
+    /running/ && do {
+      $color = "green";
+      last;
+      };
+      
+    /terminated/ && do {
+      $color = "red";
+      last;
+    };
+    
+    /stopped/ && do {
+      $color = "magenta";
+      last;
+    };
+    
+    /pending/ && do {
+      $color = "yellow";
+      last;
+    };
+  }
+
+  $t->addRow(++$row, @{$item}{qw/instanceId name imageId instanceType privateIpAddress launchTime/}, colored($state, $color));
 }
 
 print $t;

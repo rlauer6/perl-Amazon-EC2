@@ -1,4 +1,4 @@
-AC_INIT([perl-Amazon-EC2], [1.0.1], [rlauer6@comcast.net], [perl-Amazon-EC2])
+AC_INIT([perl-Amazon-EC2], [1.0.2], [rlauer6@comcast.net], [perl-Amazon-EC2])
 
 __poor_mans_expand_file_name () {
     _tmp_name=$1
@@ -29,6 +29,7 @@ __poor_mans_expand_file_name () {
 do_subst_command='do_subst = sed \
   -e '"'"'s,[@]PACKAGE[@],$(PACKAGE),g'"'"' \
   -e '"'"'s,[@]VERSION[@],$(VERSION),g'"'"' \
+  -e '"'"'s,[@]PACKAGE_VERSION[@],$(PACKAGE_VERSION),g'"'"' \
   -e '"'"'s,[@]PATH_SEPARATOR[@],$(PATH_SEPARATOR),g'"'"' \
   -e '"'"'s~[@]configure_input[@]~Generated from $@.in; do not edit by hand.~g'"'"' \
   -e "s,[@]BUILD_DATE[@],$$(date '"'"'+%Y-%m-%d %H:%M:%S'"'"'),g" \

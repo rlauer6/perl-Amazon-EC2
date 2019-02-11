@@ -354,6 +354,7 @@ my @API_METHODS = qw/AcceptReservedInstancesExchangeQuote
 		     UpdateSecurityGroupRuleDescriptionsIngress
 		    /;
 
+our $VERSION = '@PACKAGE_VERSION@'; $VERSION=~s/(^.*)\-.*$/$1/;
 
 sub new {
   my $class = shift;

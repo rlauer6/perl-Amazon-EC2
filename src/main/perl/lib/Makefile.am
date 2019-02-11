@@ -12,7 +12,7 @@ perl5libdir = @perl5libdir@
 ax_perl5_extra_includes_opt = @ax_perl5_extra_includes_opt@
 
 # this is where we will install these perl modules
-amazondir = @perl5libdir@/perl5/Amazon
+amazondir = @perl5libdir@/Amazon
 
 PERLMODULES = \
     Amazon/EC2.pm.in

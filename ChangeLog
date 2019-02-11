@@ -1,0 +1,14 @@
+Mon Feb 11 08:36:38 2019  Rob Lauer  <rlauer6@comcast.net>
+
+	[1.0.2]:
+	- removed generated files from repo
+	* configure.ac
+	- bump
+	(do_subst): @PACKAGE_VERSION@
+	* src/examples/DescribeInstances.pl
+	- add colors to EC2 states
+	- avoid uninitialized warning if no Name key
+	* src/main/perl/lib/Amazon/EC2.pm.in
+	- add VERSION
+	* src/main/perl/lib/Makefile.am
+	- amazondir=@perl5libdir@/Amazon, not ../perl5/..
