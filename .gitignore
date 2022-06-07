@@ -3,3 +3,9 @@ autom4te.cache/*
 *.spec
 config.log
 config.status
+**Makefile.in
+**/*.pm
+configure
+autotools/test-driver
+cpan/
+*.tar.gz

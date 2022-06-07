@@ -1,3 +1,17 @@
+Tue Jun  7 03:45:54 2022  Rob Lauer  <rlauer6@comcast.net>
+
+	[1.0.3]:
+	* configure.ac: bump version
+	* src/main/perl/lib/Amazon/EC2.pm.in
+	- perltidy
+	- perlcritic
+	* .gitignore: + Makefile.in, etc
+	* src/examples/DescribeInstances.pl
+	- perltidy
+	- perlcritic
+	- modulino
+	- force array, (item is now array)
+
 Mon Feb 11 08:36:38 2019  Rob Lauer  <rlauer6@comcast.net>
 
 	[1.0.2]:
